@@ -19,10 +19,14 @@ h1 {
 #registerBlurb {
   padding: 20px;
 }
+#registrationForm {
+  width: 50%;
+  margin: 0 auto;
+}
 .registrationInput {
   width: 80%;
   margin: 0 auto;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 .registerLabel {
   display: inline-block;

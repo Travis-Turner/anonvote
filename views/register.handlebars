@@ -1,16 +1,16 @@
 <h1>User Registration</h1>
-<p id="registerBlurb">Create an account to start posting.  Your username is not displayed when you post.</p>
-<form id="registrationForm" class="" action="" method="post">
+<form id="registrationForm" class="" action="/register" method="post">
+  <p id="registerBlurb">Create an account to start posting.  Your email is not displayed when you post.</p>
   <div class="registrationInput">
     <label class="registerLabel" for="email">Email:</label>
-    <input type="email" name="" value="">
+    <input type="email" name="email" value="" required>
   </div>
   <div class="registrationInput">
     <label class="registerLabel" for="password">Choose password:</label>
-    <input type="password" name="" value="">
+    <input type="password" name="password" value="" required>
   </div>
   <div id="submitButton" class="registrationInput">
       <label class="registerLabel"></label>
       <input type="submit" name="" value="Complete">
   </div>
-</orm>
+</form>
