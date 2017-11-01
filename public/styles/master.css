@@ -1,0 +1,33 @@
+/* --- --- --- navigation styles --- --- --- */
+#navbar ul {
+  text-align: left;
+}
+#navbar li {
+  display: inline;
+  border-right: 1px solid black;
+  padding: 0px 10px;
+}
+#navbar a {
+  text-decoration: none;
+  color: black;
+}
+/* --- --- --- home styles --- --- --- */
+h1 {
+  text-align: center;
+}
+/* --- --- --- registration styles --- --- --- */
+#registerBlurb {
+  padding: 20px;
+}
+.registrationInput {
+  width: 80%;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+.registerLabel {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+}​
+
+/* --- --- --- media queries --- --- --- */
