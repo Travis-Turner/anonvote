@@ -7,11 +7,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
 const {mongoose} = require('./db/mongoose');
 const {User} = require('./db/user');
+const {authenticate} = require('./middleware/authenticate');
 
 
 //app config
@@ -40,14 +38,14 @@ app.use(session({
 }));
 app.use(flash());
 
-app.get("/secret", (req, res) => {
-  console.log(req.session.user);
-  if (req.session.user === true){
-    res.send('logged in');
-  } else {
-    res.send('logged out');
-  }
+//CUSTOM MIDDLEWARE
+
+/* --- --- --- VERIFY USER BY TOKEN --- --- --- */
+
+app.get("/secret", authenticate, (req, res) => {
+  res.send('works');
 });
+
 // ROUTE ROUTE
 app.get("/", (req, res) => {
   var data = {
@@ -55,9 +53,6 @@ app.get("/", (req, res) => {
       flash:req.flash()
     }
   };
-  if (req.session.user === true){
-    data.locals.message = 'testdata';
-  }
   res.render('home', data);
 });
 
@@ -105,9 +100,12 @@ app.post("/login", (req, res) => {
   User.findOne({ email: userObj.email }).then((user) => {
       user.comparePassword(userObj.password, function(err, isMatch) {
           if (isMatch) {
-            req.session.user = true;
-            req.flash('info', 'Successfully logged in!');
-            res.redirect("/");
+            user.generateAuthToken().then((token) => {
+              req.session.token = token;
+              req.flash('info', 'Successfully logged in!');
+              res.redirect("/");
+            })
+            /* --- --- --- STORE TOKEN IN SESSION --- --- --- */
           } else {
             req.flash('info', 'Log in failed.  Please try again.');
             res.redirect("/login");
@@ -122,10 +120,20 @@ app.post("/login", (req, res) => {
 //LOGOUT
 
 app.get('/logout', (req, res) => {
-  req.session.user = false;
-  req.flash('info', 'Logged out.');
-  res.redirect("/");
+  var token = req.session.token;
+  User.findByToken(token).then((user) => {
+    user.removeToken(token).then((user) => {
+      req.session.destroy;
+      req.flash('info', 'Logged out.');
+      res.redirect("/");
+    });
+  }).catch((e) => {
+    req.flash('An unknown error occurred.  Please try again.');
+    res.redirect("/");
+  });
 });
+
+
 
 app.listen(PORT, () => {
   console.log('Server up!');
