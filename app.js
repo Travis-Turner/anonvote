@@ -3,9 +3,13 @@ const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const _ = require('lodash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const {mongoose} = require('./db/mongoose');
 const {User} = require('./db/user');
+
 
 //app config
 
@@ -24,9 +28,18 @@ app.use(bodyParser.json());
 
 app.use(expressValidator());
 
+app.use(cookieParser());
+
+app.use(session({
+  secret: 'mybigsecret',
+  resave: true,
+  saveUninitialized: true,
+}));
+app.use(flash());
+
 // GET ROUTES
 app.get("/", (req, res) => {
-  res.render('home');
+  res.render('home', {locals: {flash: req.flash()}});
 });
 app.get("/register", (req, res) => {
   res.render('register');
@@ -37,9 +50,11 @@ app.post("/register", (req, res) => {
     var userObj = _.pick(req.body, ['email', 'password']);
     var newUser = new User(userObj);
     newUser.save().then(() => {
-      res.send(newUser);
+      req.flash('info', 'Registation was a success!');
+      res.redirect("/");
     });
   } else {
+    req.flash('info', 'Registration failed.  Please try again.');
     res.send('Missing data!');
   }
 });
