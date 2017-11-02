@@ -62,6 +62,9 @@ app.post("/register", (req, res) => {
     newUser.save().then(() => {
       req.flash('info', 'Registation was a success!');
       res.redirect("/");
+    }).catch((e) => {
+      req.flash('info', 'User with that ID already exists.  Please try again.');
+      res.redirect("/");
     });
   } else {
     req.flash('info', 'Registration failed.  Please try again.');
