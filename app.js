@@ -2,19 +2,10 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
-const mongoose = require('mongoose');
+const _ = require('lodash');
 
-//mongoose setup
-
-mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/AnonVote");
-
-var userSchema = new mongoose.Schema({
- email: String,
- password: String
-});
-
-var User = mongoose.model("User", userSchema);
+const {mongoose} = require('./db/mongoose');
+const {User} = require('./db/user');
 
 //app config
 
@@ -43,7 +34,8 @@ app.get("/register", (req, res) => {
 // POST ROUTES
 app.post("/register", (req, res) => {
   if (req.body.email && req.body.password){
-    var newUser = new User(req.body);
+    var userObj = _.pick(req.body, ['email', 'password']);
+    var newUser = new User(userObj);
     newUser.save().then(() => {
       res.send(newUser);
     });
