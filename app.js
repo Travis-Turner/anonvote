@@ -37,16 +37,26 @@ app.use(session({
 }));
 app.use(flash());
 
-// GET ROUTES
+// ROUTE ROUTE
 app.get("/", (req, res) => {
   res.render('home', {locals: {flash: req.flash()}});
 });
+
+// REGISTRATION ROUTES
+
 app.get("/register", (req, res) => {
   res.render('register');
 });
-// POST ROUTES
+
 app.post("/register", (req, res) => {
   if (req.body.email && req.body.password){
+    req.assert('email', 'Is valid email').isEmail();
+    req.assert('password', 'Is not empty').notEmpty();
+    var errors = req.validationErrors();
+    if (errors){
+      req.flash('info', 'Registation failed.  Please try again.');
+      res.redirect("/");
+    }
     var userObj = _.pick(req.body, ['email', 'password']);
     var newUser = new User(userObj);
     newUser.save().then(() => {
@@ -55,7 +65,7 @@ app.post("/register", (req, res) => {
     });
   } else {
     req.flash('info', 'Registration failed.  Please try again.');
-    res.send('Missing data!');
+    res.redirect("/");
   }
 });
 
