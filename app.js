@@ -10,6 +10,7 @@ const flash = require('connect-flash');
 const {mongoose} = require('./db/mongoose');
 const {User} = require('./db/user');
 const {authenticate} = require('./middleware/authenticate');
+const {locals} = require('./middleware/locals');
 
 
 //app config
@@ -47,18 +48,19 @@ app.get("/secret", authenticate, (req, res) => {
 });
 
 // ROUTE ROUTE
-app.get("/", (req, res) => {
+app.get("/", locals, (req, res) => {
   var data = {
     locals: {
       flash:req.flash()
     }
   };
+
   res.render('home', data);
 });
 
 // REGISTRATION ROUTES
 
-app.get("/register", (req, res) => {
+app.get("/register", locals, (req, res) => {
   res.render('register');
 });
 
@@ -91,7 +93,7 @@ app.post("/register", (req, res) => {
 });
 
 //LOGIN ROUTES
-app.get("/login", (req, res) => {
+app.get("/login", locals, (req, res) => {
   res.render('login');
 });
 
@@ -123,6 +125,7 @@ app.get('/logout', (req, res) => {
   var token = req.session.token;
   User.findByToken(token).then((user) => {
     user.removeToken(token).then((user) => {
+      req.session.token = "";
       req.session.destroy;
       req.flash('info', 'Logged out.');
       res.redirect("/");

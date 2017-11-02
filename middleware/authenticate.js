@@ -8,9 +8,6 @@ var authenticate = function (req, res, next) {
       if (!user) {
         return Promise.reject('Could not find that user');
       }
-      req.user = user;
-      req.header = token;
-      req.token = token;
       next();
     })
     .catch((e) => {
