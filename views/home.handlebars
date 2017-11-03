@@ -1,4 +1,18 @@
+<link rel="stylesheet" href="./public/styles/master.css">
+
 <h1>AnonVote</h1>
 <div class="flash">{{locals.flash.info}}</div>
 
 {{locals.message}}
+
+<div id="message-board" class="pure-g">
+
+{{#each locals.posts}}
+
+  <div class="post-container pure-u-1-5">
+    <img src="{{url}}" alt="user submitted image">
+    <h4>{{title}}<a href="/post/{{_id}}"> ...(more)</a></h4>
+    <span class="ratings"><i class="fa fa-arrow-up"></i>{{rating}}<i class="fa fa-arrow-down"></i></span>
+  </div>
+{{/each}}
+</div>

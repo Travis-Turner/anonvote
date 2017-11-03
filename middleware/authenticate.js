@@ -6,12 +6,14 @@ var authenticate = function (req, res, next) {
   User.findByToken(token)
     .then((user) => {
       if (!user) {
-        return Promise.reject('Could not find that user');
+        req.flash('info', 'You must be logged in to do that.');
+        res.redirect("/");
       }
       next();
     })
     .catch((e) => {
-      res.status(401).send();
+      req.flash('info', 'You must be logged in to do that.');
+      res.redirect("/");
     });
 }
 

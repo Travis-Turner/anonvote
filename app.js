@@ -8,10 +8,12 @@ const session = require('express-session');
 const flash = require('connect-flash');
 
 const {mongoose} = require('./db/mongoose');
+const {Post} = require('./db/post');
 const {User} = require('./db/user');
 const {authenticate} = require('./middleware/authenticate');
 const {locals} = require('./middleware/locals');
 
+const post = require('./routes/post');
 
 //app config
 
@@ -41,21 +43,33 @@ app.use(flash());
 
 //CUSTOM MIDDLEWARE
 
+app.use('/post', post);
+
 /* --- --- --- VERIFY USER BY TOKEN --- --- --- */
 
-app.get("/secret", authenticate, (req, res) => {
-  res.send('works');
-});
 
 // ROUTE ROUTE
 app.get("/", locals, (req, res) => {
-  var data = {
+  let data = {
     locals: {
       flash:req.flash()
     }
   };
 
-  res.render('home', data);
+  Post.find().then((posts) => {
+    let filteredPosts = [];
+    //Remove user data
+    posts.forEach(function(post){
+      let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id']);
+      pickedPost.title = pickedPost.title.substring(0, 40);
+      filteredPosts.push(pickedPost);
+    });
+
+    data.locals.posts = filteredPosts;
+    res.render('home', data);
+  });
+
+
 });
 
 // REGISTRATION ROUTES
@@ -110,11 +124,11 @@ app.post("/login", (req, res) => {
             /* --- --- --- STORE TOKEN IN SESSION --- --- --- */
           } else {
             req.flash('info', 'Log in failed.  Please try again.');
-            res.redirect("/login");
+            res.redirect("/");
           }
       });
   }).catch((e) => {
-    req.flash('An unknown error occurred.  Please try again.');
+    req.flash('info', 'Log in failed.  Please try again.');
     res.redirect("/");
   });
 });

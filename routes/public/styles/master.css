@@ -78,6 +78,20 @@ h1 {
   text-align: center;
     font-size: 2.0em;
 }
+/* --- --- --- individual post styles --- --- --- */
+.individual-post-image {
+  height: 300px;
+  display: block;
+  width: 30%;
+  margin: 0 auto;
+}
+.individual-post-container {
+  width: 80%;
+  margin: 0 auto;
+}
+.individual-post-container h3 {
+  text-align: center;
+}
 /* --- --- --- registration styles --- --- --- */
 #registerBlurb {
   padding: 20px;
