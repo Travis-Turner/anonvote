@@ -156,5 +156,5 @@ app.get('/logout', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(port);
+  console.log('Server running');
 });
