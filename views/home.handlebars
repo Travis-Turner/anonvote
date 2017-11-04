@@ -3,7 +3,7 @@
 <h1>AnonVote</h1>
 <div class="flash">{{locals.flash.info}}</div>
 
-{{locals.message}}
+<div id="message">{{locals.message}}</div>
 
 <div id="message-board" class="pure-g">
 
@@ -13,13 +13,13 @@
     <h4>{{title}}<a href="/post/{{_id}}"> ...(more)</a></h4>
     <span class="ratings">
       {{#if ../locals.user}}
-      <form action="/post/{{_id}}/upvote" method = "post">
+      <form name={{_id}} class="upper" action="/post/{{_id}}/upvote" method = "post">
         <button class="voter" type="submit" name="button"><i class="fa fa-arrow-up"></i></button>
       </form>
       {{/if}}
-      {{rating}}
+      <span class="rating">{{rating}}</span>
       {{#if ../locals.user}}
-      <form action="/post/{{_id}}/downvote" method = "post">
+      <form name={{_id}} class="downer" action="/post/{{_id}}/downvote" method = "post">
         <button class="voter" type="submit" name="button"><i class="fa fa-arrow-down"></i></button>
       </form>
       {{/if}}

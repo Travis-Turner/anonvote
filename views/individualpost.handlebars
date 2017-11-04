@@ -1,7 +1,19 @@
 <div class="individual-post-container">
-  <img class="individual-post-image" src="{{url}}">
-  <span class="ratings"><i class="fa fa-arrow-up"></i>{{rating}}<i class="fa fa-arrow-down"></i></span>
-  <h3>{{title}}</h3>
-  <p>{{body}}</p>
+  <img class="individual-post-image" src="{{locals.pickedPost.url}}">
+  <span class="ratings">
+    {{#if locals.user}}
+    <form name={{locals.pickedPost._id}} class="upper" action="/post/{{locals.pickedPost._id}}/upvote" method = "post">
+      <button class="voter" type="submit" name="button"><i class="fa fa-arrow-up"></i></button>
+    </form>
+    {{/if}}
+    <span class="rating">{{locals.pickedPost.rating}}</span>
+    {{#if locals.user}}
+    <form name={{locals.pickedPost._id}} class="downer" action="/post/{{locals.pickedPost._id}}/downvote" method = "post">
+      <button class="voter" type="submit" name="button"><i class="fa fa-arrow-down"></i></button>
+    </form>
+    {{/if}}
+  </span>
+  <h3>{{locals.pickedPost.title}}</h3>
+  <p>{{locals.pickedPost.body}}</p>
 
 </div>

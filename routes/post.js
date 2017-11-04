@@ -45,9 +45,15 @@ router.post('/', authenticate, function (req, res) {
 
 router.get('/:id', authenticate, locals, (req, res) => {
   Post.findOne({'_id': req.params.id}).then((post) => {
+    let data = {
+      locals: {
+        flash:req.flash(),
+        user: res.locals.user
+      }
+    };
       let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id']);
-
-    return res.render('individualpost', pickedPost);
+      data.locals.pickedPost = pickedPost;
+      return res.render('individualpost', data);
   })
   .catch((e) => {
     req.flash('info', 'Post not found!');
@@ -71,7 +77,7 @@ router.post('/:id/upvote', authenticate, (req, res) => {
       post.rating++;
       post.save();
       req.flash('info', 'Vote submitted.');
-      return res.redirect('/');
+      return res.redirect('back');
     });
   });
 });
@@ -92,7 +98,7 @@ router.post('/:id/downvote', authenticate, (req, res) => {
       post.rating--;
       post.save();
       req.flash('info', 'Vote submitted.');
-      return res.redirect('/');
+      return res.redirect('back');
     });
   });
 });
