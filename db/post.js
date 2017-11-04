@@ -31,9 +31,7 @@ var postSchema = new mongoose.Schema({
    type: String
  }],
  downvotes: [{
-   users: {
      type: String
-   }
  }]
 });
 

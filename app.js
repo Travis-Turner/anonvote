@@ -45,9 +45,6 @@ app.use(flash());
 
 app.use('/post', post);
 
-/* --- --- --- VERIFY USER BY TOKEN --- --- --- */
-
-
 // ROUTE ROUTE
 app.get("/", locals, (req, res) => {
   let data = {
@@ -64,12 +61,9 @@ app.get("/", locals, (req, res) => {
       pickedPost.title = pickedPost.title.substring(0, 40);
       filteredPosts.push(pickedPost);
     });
-
     data.locals.posts = filteredPosts;
     res.render('home', data);
   });
-
-
 });
 
 // REGISTRATION ROUTES
@@ -149,8 +143,6 @@ app.get('/logout', (req, res) => {
     res.redirect("/");
   });
 });
-
-
 
 app.listen(PORT, () => {
   console.log('Server up!');

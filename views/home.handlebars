@@ -12,7 +12,15 @@
   <div class="post-container pure-u-1-5">
     <img src="{{url}}" alt="user submitted image">
     <h4>{{title}}<a href="/post/{{_id}}"> ...(more)</a></h4>
-    <span class="ratings"><i class="fa fa-arrow-up"></i>{{rating}}<i class="fa fa-arrow-down"></i></span>
+    <span class="ratings">
+      <form action="/post/{{_id}}/upvote" method = "post">
+        <button class="voter" type="submit" name="button"><i class="fa fa-arrow-up"></i></button>
+      </form>
+      {{rating}}
+      <form action="/post/{{_id}}/downvote" method = "post">
+        <button class="voter" type="submit" name="button"><i class="fa fa-arrow-down"></i></button>
+      </form>
+    </span>
   </div>
 {{/each}}
 </div>

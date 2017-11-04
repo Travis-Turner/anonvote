@@ -12,9 +12,6 @@ const {mongoose} = require("./../db/mongoose");
 
 router.use("/public", express.static(__dirname + '/public'));
 
-router.use(function timeLog (req, res, next) {
-  next()
-});
 
 router.get('/', authenticate, locals, function (req, res) {
   res.render('post');
@@ -56,7 +53,13 @@ router.get('/:id', authenticate, locals, (req, res) => {
     req.flash('info', 'Post not found!');
     res.redirect("/");
   });
+});
 
+router.post('/:id/upvote', (req, res) => {
+  res.send('upvote');
+});
+router.post('/:id/downvote', (req, res) => {
+  res.send('downvote');
 });
 
 module.exports = router

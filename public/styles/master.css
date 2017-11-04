@@ -78,6 +78,19 @@ h1 {
   text-align: center;
     font-size: 2.0em;
 }
+.voter {
+  border: none;
+  background-color: white;
+  
+}
+/* --- --- --- individual post styles --- --- --- */
+.individual-post-container {
+  width: 90%;
+  margin: 0 auto;
+}
+.individual-post-image {
+  height: 300px;
+}
 /* --- --- --- registration styles --- --- --- */
 #registerBlurb {
   padding: 20px;

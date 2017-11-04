@@ -76,21 +76,28 @@ h1 {
 .ratings {
   display: block;
   text-align: center;
-    font-size: 2.0em;
+  font-size: 2.0em;
+}
+.voter {
+  border: none;
+  background-color: white;
 }
 /* --- --- --- individual post styles --- --- --- */
+.individual-post-container {
+  width: 90%;
+  margin: 0 auto;
+}
 .individual-post-image {
   height: 300px;
   display: block;
+  margin: 0 auto;
   width: 30%;
-  margin: 0 auto;
-}
-.individual-post-container {
-  width: 80%;
-  margin: 0 auto;
 }
 .individual-post-container h3 {
   text-align: center;
+}
+.individual-post-container span {
+  margin-top: 10px;
 }
 /* --- --- --- registration styles --- --- --- */
 #registerBlurb {
