@@ -55,11 +55,12 @@ router.get('/:id', authenticate, locals, (req, res) => {
   });
 });
 
-router.post('/:id/upvote', (req, res) => {
-  res.send('upvote');
+router.post('/:id/upvote', authenticate, (req, res) => {
+
 });
-router.post('/:id/downvote', (req, res) => {
-  res.send('downvote');
+
+router.post('/:id/downvote', authenticate, (req, res) => {
+
 });
 
 module.exports = router

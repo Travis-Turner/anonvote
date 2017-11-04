@@ -8,18 +8,21 @@
 <div id="message-board" class="pure-g">
 
 {{#each locals.posts}}
-
   <div class="post-container pure-u-1-5">
     <img src="{{url}}" alt="user submitted image">
     <h4>{{title}}<a href="/post/{{_id}}"> ...(more)</a></h4>
     <span class="ratings">
+      {{#if ../locals.user}}
       <form action="/post/{{_id}}/upvote" method = "post">
         <button class="voter" type="submit" name="button"><i class="fa fa-arrow-up"></i></button>
       </form>
+      {{/if}}
       {{rating}}
+      {{#if ../locals.user}}
       <form action="/post/{{_id}}/downvote" method = "post">
         <button class="voter" type="submit" name="button"><i class="fa fa-arrow-down"></i></button>
       </form>
+      {{/if}}
     </span>
   </div>
 {{/each}}

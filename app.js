@@ -49,10 +49,11 @@ app.use('/post', post);
 app.get("/", locals, (req, res) => {
   let data = {
     locals: {
-      flash:req.flash()
+      flash:req.flash(),
+      user: res.locals.user
     }
   };
-
+  
   Post.find().then((posts) => {
     let filteredPosts = [];
     //Remove user data
@@ -62,6 +63,7 @@ app.get("/", locals, (req, res) => {
       filteredPosts.push(pickedPost);
     });
     data.locals.posts = filteredPosts;
+
     res.render('home', data);
   });
 });
