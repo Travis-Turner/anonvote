@@ -17,7 +17,13 @@ const post = require('./routes/post');
 
 //app config
 
-const PORT = 3000;
+var env = process.env.NODE_ENV || "development";
+var port;
+if (env === "development"){
+  port = 3000;
+} else {
+  port = process.env.PORT;
+}
 
 var app = express();
 
@@ -149,6 +155,6 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log('Server up!');
+app.listen(port, () => {
+  console.log(port);
 });
