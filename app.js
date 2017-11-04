@@ -53,7 +53,7 @@ app.get("/", locals, (req, res) => {
       user: res.locals.user
     }
   };
-  
+
   Post.find().then((posts) => {
     let filteredPosts = [];
     //Remove user data
@@ -61,6 +61,9 @@ app.get("/", locals, (req, res) => {
       let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id']);
       pickedPost.title = pickedPost.title.substring(0, 40);
       filteredPosts.push(pickedPost);
+    });
+    filteredPosts.sort(function(a, b){
+      return b.rating - a.rating;
     });
     data.locals.posts = filteredPosts;
 

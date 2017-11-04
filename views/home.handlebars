@@ -1,15 +1,16 @@
 <link rel="stylesheet" href="./public/styles/master.css">
 
 <h1>AnonVote</h1>
-<div class="flash">{{locals.flash.info}}</div>
-
+<div id="flash">{{locals.flash.info}}</div>
 <div id="message">{{locals.message}}</div>
 
 <div id="message-board" class="pure-g">
 
 {{#each locals.posts}}
-  <div class="post-container pure-u-1-5">
-    <img src="{{url}}" alt="user submitted image">
+  <div class="post-container pure-u-md-1-5 pure-u-1">
+    <div class="img-container">
+      <img src="{{url}}" alt="user submitted image">
+    </div>
     <h4>{{title}}<a href="/post/{{_id}}"> ...(more)</a></h4>
     <span class="ratings">
       {{#if ../locals.user}}

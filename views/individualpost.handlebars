@@ -14,6 +14,14 @@
     {{/if}}
   </span>
   <h3>{{locals.pickedPost.title}}</h3>
-  <p>{{locals.pickedPost.body}}</p>
+  <p id="individual-post-body">{{locals.pickedPost.body}}</p>
+  <form name={{locals.pickedPost._id}} class="commentForm" action="/post/{{locals.pickedPost._id}}/comment" method="post">
+    Add comment:  <input type="text" name="commentBody" value="">
+    <button type="submit" name="button">Submit</button>
+  </form>
+  <h4 id="comment-header">COMMENTS:</h4>
+  {{#each locals.pickedPost.comments}}
+    <p class="comment">{{this}}</p>
+  {{/each}}
 
 </div>

@@ -32,6 +32,9 @@ var postSchema = new mongoose.Schema({
  }],
  downvotes: [{
      type: String
+ }],
+ comments: [{
+   type: String
  }]
 });
 

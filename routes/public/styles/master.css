@@ -99,6 +99,27 @@ h1 {
 .individual-post-container span {
   margin-top: 10px;
 }
+#individual-post-body {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 2em;
+}
+#comment-header {
+  width: 50%;
+  margin: 0 auto;
+  padding-top: 40px;
+}
+.comment {
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+}
+.commentForm {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10%;
+}
 /* --- --- --- registration styles --- --- --- */
 #registerBlurb {
   padding: 20px;

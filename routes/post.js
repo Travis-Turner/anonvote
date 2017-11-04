@@ -18,7 +18,7 @@ router.get('/', authenticate, locals, function (req, res) {
 });
 
 router.post('/', authenticate, function (req, res) {
-  var post = _.pick(req.body, ['title', 'body', '_id']);
+  var post = _.pick(req.body, ['title', 'body', '_id', 'url']);
   if (!post.url){
     post.url = 'https://image.flaticon.com/icons/svg/78/78373.svg';
   }
@@ -27,6 +27,7 @@ router.post('/', authenticate, function (req, res) {
   User.findByToken(token).then((user) => {
     //Initialize post data
     var user_id = user._id.toHexString();
+    newPost.url = post.url;
     newPost.createdBy = user_id;
     newPost.upvotes.push(user_id);
     newPost.rating = 1;
@@ -51,7 +52,7 @@ router.get('/:id', authenticate, locals, (req, res) => {
         user: res.locals.user
       }
     };
-      let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id']);
+      let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id', 'comments']);
       data.locals.pickedPost = pickedPost;
       return res.render('individualpost', data);
   })
@@ -101,6 +102,15 @@ router.post('/:id/downvote', authenticate, (req, res) => {
       return res.redirect('back');
     });
   });
+});
+
+router.post('/:id/comment', authenticate, (req, res) => {
+  Post.findOne({'_id': req.params.id}).then((post) => {
+    var newComment = req.body.commentBody;
+    post.comments.push(newComment);
+    post.save();
+    res.redirect('back');
+  })
 });
 
 module.exports = router
