@@ -34,11 +34,11 @@ router.post('/', authenticate, function (req, res) {
     newPost.save()
     .then((post) => {
       req.flash('info', 'Post submitted!');
-      res.redirect('/');
+      return res.redirect('/');
   }).catch((e) => {
     console.log(e);
     req.flash('info', 'Post failed.  Please try again.');
-    res.redirect('/');
+    return res.redirect('/');
     });
   });
 });
@@ -47,20 +47,54 @@ router.get('/:id', authenticate, locals, (req, res) => {
   Post.findOne({'_id': req.params.id}).then((post) => {
       let pickedPost = _.pick(post, ["title", "body", "rating", "url", '_id']);
 
-    res.render('individualpost', pickedPost);
+    return res.render('individualpost', pickedPost);
   })
   .catch((e) => {
     req.flash('info', 'Post not found!');
-    res.redirect("/");
+    return res.redirect("/");
   });
 });
 
 router.post('/:id/upvote', authenticate, (req, res) => {
-
+  Post.findOne({'_id': req.params.id}).then((post) => {
+    User.findByToken(req.session.token).then((user) => {
+      user_id = user._id.toHexString();
+      if (post.upvotes.includes(user_id)){
+        req.flash('info', "You can't vote that post any higher");
+        return res.redirect('/');
+      }
+      if (post.downvotes.includes(user_id)){
+        var index = post.downvotes.indexOf(user_id);
+        post.downvotes.splice(index, 1);
+      }
+      post.upvotes.push(user_id);
+      post.rating++;
+      post.save();
+      req.flash('info', 'Vote submitted.');
+      return res.redirect('/');
+    });
+  });
 });
 
 router.post('/:id/downvote', authenticate, (req, res) => {
-
+  Post.findOne({'_id': req.params.id}).then((post) => {
+    User.findByToken(req.session.token).then((user) => {
+      user_id = user._id.toHexString();
+      if (post.downvotes.includes(user_id)){
+        req.flash('info', "You can't vote that post any lower");
+        return res.redirect('/');
+      }
+      if (post.upvotes.includes(user_id)){
+        var index = post.upvotes.indexOf(user_id);
+        post.upvotes.splice(index, 1);
+      }
+      post.downvotes.push(user_id);
+      post.rating--;
+      post.save();
+      req.flash('info', 'Vote submitted.');
+      return res.redirect('/');
+    });
+  });
 });
 
 module.exports = router
