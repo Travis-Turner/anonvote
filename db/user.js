@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const SALT_WORK_FACTOR = 10;
-process.env.JWT_SECRET = 'mybigfatsecret';
+const JWTSECRET = 'mybigfatsecret';
 
 var userSchema = new mongoose.Schema({
  email: {
@@ -40,7 +40,7 @@ userSchema.pre('save', function(next){
 userSchema.methods.generateAuthToken = function () {
   var user = this;
   var access = 'auth';
-  var token = jwt.sign({_id: this._id, access}, process.env.JWT_SECRET);
+  var token = jwt.sign({_id: this._id, access}, JWTSECRET);
 
   user.tokens.push({access, token});
 
@@ -64,7 +64,7 @@ userSchema.statics.findByToken = function (token) {
   var User = this;
   var decoded;
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, JWTSECRET);
   } catch (e) {
     return Promise.reject('Could not verify this token');
   }
