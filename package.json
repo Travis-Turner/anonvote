@@ -26,6 +26,8 @@
     "mongoose": "^4.12.6"
   },
   "devDependencies": {
-    "mocha": "^4.0.1"
+    "expect": "^21.2.1",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }

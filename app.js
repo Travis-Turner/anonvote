@@ -12,10 +12,11 @@ const {Post} = require('./db/post');
 const {User} = require('./db/user');
 const {authenticate} = require('./middleware/authenticate');
 const {locals} = require('./middleware/locals');
-// const {port} = require('./config');
+const {port} = require('./config');
 
 
 const post = require('./routes/post');
+//check for test env
 
 //app config
 
@@ -68,7 +69,7 @@ app.get("/", locals, (req, res) => {
     });
     data.locals.posts = filteredPosts;
 
-    res.render('home', data);
+    res.status(200).render('home', data);
   });
 });
 
@@ -150,6 +151,10 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
   console.log('Server running on');
 });
+
+module.exports = {
+  app
+};
