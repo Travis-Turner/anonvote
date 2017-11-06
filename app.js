@@ -12,18 +12,13 @@ const {Post} = require('./db/post');
 const {User} = require('./db/user');
 const {authenticate} = require('./middleware/authenticate');
 const {locals} = require('./middleware/locals');
+const {port} = require('./config');
+
 
 const post = require('./routes/post');
 
 //app config
 
-var env = process.env.NODE_ENV || "development";
-var port;
-if (env === "development"){
-  port = 3000;
-} else {
-  port = process.env.PORT;
-}
 
 var app = express();
 
@@ -156,5 +151,5 @@ app.get('/logout', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log('Server running');
+  console.log('Server running on ' + port);
 });
