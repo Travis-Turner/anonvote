@@ -12,7 +12,7 @@ const {Post} = require('./db/post');
 const {User} = require('./db/user');
 const {authenticate} = require('./middleware/authenticate');
 const {locals} = require('./middleware/locals');
-const {port} = require('./config');
+// const {port} = require('./config');
 
 
 const post = require('./routes/post');
@@ -150,6 +150,6 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log('Server running on ' + port);
 });
